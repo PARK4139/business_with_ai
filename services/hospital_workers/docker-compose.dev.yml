@@ -51,6 +51,22 @@ services:
       - hospital-network
     restart: unless-stopped
 
+  # 프론트엔드 서비스 - 개발 모드 (Hot Reload)
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./frontend:/app  # 코드 변경사항 즉시 반영
+      - /app/node_modules  # node_modules 제외
+    environment:
+      - NODE_ENV=development
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
   # Nginx 리버스 프록시 - 개발 모드
   nginx:
     image: nginx:alpine
@@ -61,6 +77,7 @@ services:
     depends_on:
       - auth-service
       - api-service
+      - frontend
     networks:
       - hospital-network
     restart: unless-stopped

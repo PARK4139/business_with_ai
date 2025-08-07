@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Docker 컨테이너 빌드 자동화 스크립트
-# 사용법: ./scripts/ensure_docker_build.sh [dev|prod]
+# 사용법: ./scripts/ensure_containers_build.sh [dev|prod]
 
 set -e
 

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Docker 컨테이너 중지 자동화 스크립트
-# 사용법: ./scripts/ensure_docker_stop.sh
+# 사용법: ./scripts/ensure_containers_stop.sh
 
 set -e
 

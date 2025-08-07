@@ -51,6 +51,24 @@ services:
           memory: 512M
           cpus: '0.5'
 
+  # 프론트엔드 서비스 - 프로덕션 모드
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    ports:
+      - "3000:80"
+    environment:
+      - NODE_ENV=production
+    networks:
+      - hospital-network
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'
+
   # Nginx 리버스 프록시 - 프로덕션 모드 최적화
   nginx:
     image: nginx:alpine
@@ -61,6 +79,7 @@ services:
     depends_on:
       - auth-service
       - api-service
+      - frontend
     networks:
       - hospital-network
     restart: unless-stopped

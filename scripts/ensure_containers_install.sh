@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Docker 설치 자동화 스크립트
-# 사용법: ./scripts/ensure_docker_install.sh
+# 사용법: ./scripts/ensure_containers_install.sh
 
 set -e
 

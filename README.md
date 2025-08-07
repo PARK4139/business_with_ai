@@ -6,13 +6,41 @@
 
 ### ✅ 오늘 완료된 작업들
 
-#### 1. 서비스 운영 환경 검증 및 테스트
+#### 1. 프론트엔드 개발 환경 구축
+- **React + Vite 기반 프론트엔드**: Hot Reload 지원 개발 환경
+- **개발모드/운영모드 구분**: 
+  - `Dockerfile.dev`: 개발모드용 (hot reload 지원)
+  - `Dockerfile.prod`: 운영모드용 (정적 파일 빌드)
+- **프론트엔드 서비스 구성**:
+  - ✅ React + Vite 개발 환경
+  - ✅ Hot Reload 기능 (코드 변경 시 자동 새로고침)
+  - ✅ nginx 프록시 연동
+  - ✅ Docker 컨테이너화 완료
+
+#### 2. 프론트엔드 접속 환경
+- **직접 접근**: `http://localhost:5173`
+- **nginx 프록시**: `http://localhost`
+- **개발 환경**: bash 환경에서 실행
+- **Hot Reload 테스트**: 파일 수정 시 자동 반영 확인
+
+#### 3. 스크립트 네이밍 컨벤션 개선
+- **파일명 변경**: `ensure_docker_*` → `ensure_containers_*`
+- **내용 패턴 변경**: 모든 스크립트 내 `ensure_docker_` → `ensure_containers_`
+- **변경된 파일들**:
+  - `ensure_containers_install.sh`
+  - `ensure_containers_compose_install.sh`
+  - `ensure_containers_build.sh`
+  - `ensure_containers_run.sh`
+  - `ensure_containers_stop.sh`
+
+#### 4. 서비스 운영 환경 검증 및 테스트
 - **Docker 서비스 상태 확인**: 모든 컨테이너 정상 실행 확인
 - **API 테스트 완료**: 13개 엔드포인트 모두 성공 (100% 성공률)
 - **서비스 구성 요소 검증**:
   - ✅ Nginx 리버스 프록시 (포트 80)
   - ✅ Auth Service (포트 8001)
   - ✅ API Service (포트 8002)
+  - ✅ **Frontend Service (포트 5173)** (새로 추가)
   - ✅ PostgreSQL 데이터베이스 (포트 5432)
   - ✅ Redis 캐시 (포트 6379)
 
@@ -45,11 +73,11 @@
 - **Redis** - 캐시/세션
 
 #### 2. 자동화 스크립트 개발
-- `scripts/ensure_docker_install.sh` - Docker 설치 자동화
-- `scripts/ensure_docker_compose_install.sh` - Docker Compose 설치 자동화
-- `scripts/ensure_docker_build.sh` - 컨테이너 빌드 자동화
-- `scripts/ensure_docker_run.sh` - 컨테이너 실행 자동화
-- `scripts/ensure_docker_stop.sh` - 컨테이너 중지 자동화
+- `scripts/ensure_containers_install.sh` - Docker 설치 자동화
+- `scripts/ensure_containers_compose_install.sh` - Docker Compose 설치 자동화
+- `scripts/ensure_containers_build.sh` - 컨테이너 빌드 자동화
+- `scripts/ensure_containers_run.sh` - 컨테이너 실행 자동화
+- `scripts/ensure_containers_stop.sh` - 컨테이너 중지 자동화
 - `scripts/ensure_service_test.sh` - 서비스 빌드 테스트
 - `scripts/ensure_service_operated.sh` - 서비스 운영 테스트
 
@@ -74,6 +102,7 @@
 ### 🏗️ 기술 스택
 - **아키텍처**: DDD + MSA
 - **API 프레임워크**: FastAPI
+- **프론트엔드**: React + Vite
 - **가상환경**: Docker (서비스), uv (파이썬)
 - **데이터베이스**: PostgreSQL
 - **캐시**: Redis
@@ -86,6 +115,7 @@ business_with_ai/
 ├── services/hospital_workers/     # MSA 서비스들
 │   ├── auth-service/             # 인증 서비스
 │   ├── api-service/              # API 서비스
+│   ├── frontend/                 # 프론트엔드 서비스 (React + Vite)
 │   ├── shared/                   # 공통 모듈
 │   ├── nginx/                    # 리버스 프록시
 │   └── docker-compose.yml        # Docker 구성
@@ -100,16 +130,16 @@ business_with_ai/
 ### 🚀 사용 방법
 ```bash
 # Docker 설치 (필요시)
-./scripts/ensure_docker_install.sh
+./scripts/ensure_containers_install.sh
 
 # Docker Compose 설치 (필요시)
-./scripts/ensure_docker_compose_install.sh
+./scripts/ensure_containers_compose_install.sh
 
 # 서비스 빌드
-./scripts/ensure_docker_build.sh
+./scripts/ensure_containers_build.sh
 
 # 서비스 실행
-./scripts/ensure_docker_run.sh
+./scripts/ensure_containers_run.sh
 
 # 서비스 운영 테스트
 ./scripts/ensure_service_operated.sh
@@ -118,7 +148,7 @@ business_with_ai/
 python3 scripts/all_api_test.py
 
 # 서비스 중지
-./scripts/ensure_docker_stop.sh
+./scripts/ensure_containers_stop.sh
 ```
 
 ### 📊 현재 서비스 상태
