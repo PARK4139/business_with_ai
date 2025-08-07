@@ -1,0 +1,101 @@
+version: '3.8'
+
+services:
+  # 로그인 서버 (인증 서비스) - 개발 모드 최적화
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile.dev
+      target: development
+    ports:
+      - "8001:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@user-db:5432/hospital_workers
+      - REDIS_URL=redis://redis:6379
+      - ENVIRONMENT=development
+      - PYTHONPATH=/app
+    volumes:
+      - ./auth-service:/app  # 코드 변경사항 즉시 반영
+      - /app/__pycache__    # 캐시 제외
+      - /app/.pytest_cache   # 테스트 캐시 제외
+    depends_on:
+      - user-db
+      - redis
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # API 서버 (비즈니스 로직) - 개발 모드 최적화
+  api-service:
+    build:
+      context: ./api-service
+      dockerfile: Dockerfile.dev
+      target: development
+    ports:
+      - "8002:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@user-db:5432/hospital_workers
+      - REDIS_URL=redis://redis:6379
+      - AUTH_SERVICE_URL=http://auth-service:8000
+      - ENVIRONMENT=development
+      - PYTHONPATH=/app
+    volumes:
+      - ./api-service:/app  # 코드 변경사항 즉시 반영
+      - /app/__pycache__    # 캐시 제외
+      - /app/.pytest_cache   # 테스트 캐시 제외
+    depends_on:
+      - user-db
+      - redis
+      - auth-service
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # Nginx 리버스 프록시 - 개발 모드
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - auth-service
+      - api-service
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # User DB (사용자 데이터베이스) - 개발 모드
+  user-db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=hospital_workers
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - user_db_data:/var/lib/postgresql/data
+      - ./user-db/init:/docker-entrypoint-initdb.d  # 초기화 스크립트
+    ports:
+      - "5432:5432"
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # Redis 캐시/세션 - 개발 모드
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+volumes:
+  user_db_data:
+  redis_data:
+
+networks:
+  hospital-network:
+    driver: bridge
