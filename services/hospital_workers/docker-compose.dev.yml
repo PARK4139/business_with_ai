@@ -1,68 +1,59 @@
 version: '3.8'
 
 services:
-  # 로그인 서버 (인증 서비스) - 개발 모드 최적화
-  auth-service:
+  # 페이지 서버 (Next.js 프론트엔드) - 개발 모드 (Hot Reload)
+  page-server:
     build:
-      context: ./auth-service
-      dockerfile: Dockerfile.dev
-      target: development
-    ports:
-      - "8001:8000"
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@user-db:5432/hospital_workers
-      - REDIS_URL=redis://redis:6379
-      - ENVIRONMENT=development
-      - PYTHONPATH=/app
-    volumes:
-      - ./auth-service:/app  # 코드 변경사항 즉시 반영
-      - /app/__pycache__    # 캐시 제외
-      - /app/.pytest_cache   # 테스트 캐시 제외
-    depends_on:
-      - user-db
-      - redis
-    networks:
-      - hospital-network
-    restart: unless-stopped
-
-  # API 서버 (비즈니스 로직) - 개발 모드 최적화
-  api-service:
-    build:
-      context: ./api-service
-      dockerfile: Dockerfile.dev
-      target: development
-    ports:
-      - "8002:8000"
-    environment:
-      - DATABASE_URL=postgresql://postgres:password@user-db:5432/hospital_workers
-      - REDIS_URL=redis://redis:6379
-      - AUTH_SERVICE_URL=http://auth-service:8000
-      - ENVIRONMENT=development
-      - PYTHONPATH=/app
-    volumes:
-      - ./api-service:/app  # 코드 변경사항 즉시 반영
-      - /app/__pycache__    # 캐시 제외
-      - /app/.pytest_cache   # 테스트 캐시 제외
-    depends_on:
-      - user-db
-      - redis
-      - auth-service
-    networks:
-      - hospital-network
-    restart: unless-stopped
-
-  # 프론트엔드 서비스 - 개발 모드 (Hot Reload)
-  frontend:
-    build:
-      context: ./frontend
+      context: ./page_server
       dockerfile: Dockerfile.dev
     ports:
-      - "5173:5173"
+      - "5173:3000"
     volumes:
-      - ./frontend:/app  # 코드 변경사항 즉시 반영
+      - ./page_server:/app  # 코드 변경사항 즉시 반영
       - /app/node_modules  # node_modules 제외
     environment:
       - NODE_ENV=development
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # API 서버 (FastAPI 백엔드) - 개발 모드 최적화
+  api-server:
+    build:
+      context: ./api_server
+      dockerfile: Dockerfile
+    ports:
+      - "8002:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:password@db-server:5432/hospital_workers
+      - REDIS_URL=redis://redis:6379
+      - ENVIRONMENT=development
+      - PYTHONPATH=/app
+    volumes:
+      - ./api_server:/app  # 코드 변경사항 즉시 반영
+      - /app/__pycache__    # 캐시 제외
+      - /app/.pytest_cache   # 테스트 캐시 제외
+    depends_on:
+      - db-server
+      - redis
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  # 데이터베이스 서버 (PostgreSQL) - 개발 모드
+  db-server:
+    build:
+      context: ./db_server
+      dockerfile: Dockerfile
+    environment:
+      - POSTGRES_DB=hospital_workers
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - db_data:/var/lib/postgresql/data
+      - ./db_server/migrations:/docker-entrypoint-initdb.d  # 초기화 스크립트
+    ports:
+      - "5432:5432"
     networks:
       - hospital-network
     restart: unless-stopped
@@ -73,27 +64,10 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./nginx/nginx.dev.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
-      - auth-service
-      - api-service
-      - frontend
-    networks:
-      - hospital-network
-    restart: unless-stopped
-
-  # User DB (사용자 데이터베이스) - 개발 모드
-  user-db:
-    image: postgres:15-alpine
-    environment:
-      - POSTGRES_DB=hospital_workers
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
-    volumes:
-      - user_db_data:/var/lib/postgresql/data
-      - ./user-db/init:/docker-entrypoint-initdb.d  # 초기화 스크립트
-    ports:
-      - "5432:5432"
+      - page-server
+      - api-server
     networks:
       - hospital-network
     restart: unless-stopped
@@ -110,7 +84,7 @@ services:
     restart: unless-stopped
 
 volumes:
-  user_db_data:
+  db_data:
   redis_data:
 
 networks:

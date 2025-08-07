@@ -4,6 +4,45 @@
 
 ## 🚀 최근 업데이트 (2025년 8월 7일)
 
+### ✅ 오늘 완료된 작업들 (2025년 8월 7일 오후)
+
+#### 1. nginx 구조 개선 및 모니터링 시스템 구축
+- **nginx 위치 변경**: `services/hospital_workers/nginx/` → `services/hospital_workers/page_server/nginx/`
+- **nginx 설정 수정**: `auth-service:8000` → `hospital_workers-api-server-1:8000` (실제 컨테이너 이름 반영)
+- **모니터링 스크립트 작성**: `monitors/ensure_service_monitored.sh` 생성
+- **컨테이너 정보 개선**: 컨테이너 이름, 시작 시간, 메모리/CPU 사용률 등 상세 정보 표시
+
+#### 2. 서비스 운영 및 테스트 스크립트 분리
+- **운영 스크립트**: `ensure_service_operated.sh` - 실제 운영용 (빌드 및 실행)
+- **테스트 스크립트**: `ensure_service_test.sh` - 상세 테스트용 (포트, HTTP, DB, Redis, 네트워크, API 테스트)
+- **모니터링 스크립트**: `ensure_service_monitored.sh` - 실시간 상태 모니터링
+
+#### 3. 모든 서비스 정상 운영 확인
+- **실행 중인 컨테이너들**:
+  - ✅ page-server (74.94MiB, 11.66% CPU)
+  - ✅ api-server (59.36MiB, 0.47% CPU)
+  - ✅ db-server (33.23MiB, 0.01% CPU)
+  - ✅ nginx (2.68MiB, 0.00% CPU)
+  - ✅ redis (6.473MiB, 0.85% CPU)
+
+#### 4. 포트 및 HTTP 연결 테스트 완료
+- **포트 연결 정상**: 80, 5173, 8002, 5432, 6379 모든 포트 사용 중
+- **HTTP 연결 정상**: API Server, Nginx HTTP 연결 성공
+- **데이터베이스 연결 정상**: PostgreSQL, Redis 연결 성공
+- **API 엔드포인트 정상**: 기본 API 응답 확인
+
+#### 5. 터미널 실행 규칙 개선
+- **시스템 터미널 우선**: `run_terminal_cmd` 대신 시스템 터미널 직접 사용
+- **bash 환경 전환**: zsh에서 bash로 개발 환경 통일
+- **빠른 명령어 실행**: `bash -c` 방식으로 안정적인 실행
+
+#### 6. 개선이 필요한 항목 식별
+- ⚠️ Page Server HTTP 연결 실패 (개발 서버 설정 확인 필요)
+- ⚠️ 서비스 간 네트워크 연결 (ping 명령어 대신 다른 방법 사용 필요)
+- ⚠️ 위치 가이드 API 404 (아직 구현되지 않음)
+
+### ✅ 이전 완료된 작업들
+
 ### ✅ 오늘 완료된 작업들
 
 #### 1. 프로젝트 작업규칙 정립 및 문서화
