@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Image from 'next/image';
 
 // API 기본 URL
-const API_BASE_URL = 'http://localhost:8002';
+const API_BASE_URL = 'http://localhost/api';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState('login');
