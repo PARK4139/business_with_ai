@@ -1,57 +1,36 @@
-# 병원 근무자 관리 시스템 - 프론트엔드
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-React + Vite 기반의 프론트엔드 애플리케이션입니다.
+## Getting Started
 
-## 개발 환경 설정
+First, run the development server:
 
-### 로컬 개발
 ```bash
-cd frontend
-npm install
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-### Docker 개발 모드
-```bash
-# 개발 모드로 전체 시스템 실행
-docker-compose -f docker-compose.dev.yml up --build
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-# 프론트엔드만 실행
-docker-compose -f docker-compose.dev.yml up frontend
-```
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-### Docker 운영 모드
-```bash
-# 운영 모드로 전체 시스템 실행
-docker-compose -f docker-compose.prod.yml up --build
-```
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## 주요 기능
+## Learn More
 
-- **Hot Reload**: 개발 모드에서 코드 변경 시 자동 새로고침
-- **React Router**: SPA 라우팅
-- **Axios**: API 통신
-- **ESLint**: 코드 품질 관리
+To learn more about Next.js, take a look at the following resources:
 
-## 접속 방법
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-- **개발 모드**: http://localhost:5173 (직접 접속) 또는 http://localhost (nginx 프록시)
-- **운영 모드**: http://localhost:3000 (직접 접속) 또는 http://localhost (nginx 프록시)
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## 프로젝트 구조
+## Deploy on Vercel
 
-```
-frontend/
-├── src/
-│   ├── components/     # 재사용 가능한 컴포넌트
-│   ├── pages/         # 페이지 컴포넌트
-│   ├── hooks/         # 커스텀 훅
-│   ├── utils/         # 유틸리티 함수
-│   ├── services/      # API 서비스
-│   ├── App.jsx        # 메인 앱 컴포넌트
-│   └── main.jsx       # 진입점
-├── public/            # 정적 파일
-├── Dockerfile.dev     # 개발용 Dockerfile
-├── Dockerfile.prod    # 운영용 Dockerfile
-└── package.json       # 의존성 관리
-```
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

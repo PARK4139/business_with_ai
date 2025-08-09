@@ -1,239 +1,211 @@
-### 프로젝트 목적
+# 🏥 병원 근무자 관리 시스템
 
-본 프로젝트는 AI 기반으로 수익실현이 가능한 레벨의 상용 서비스를 기획부터 운영 유지보수를 테스트
+## 📋 프로젝트 개요
 
-## 🚀 최근 업데이트 (2025년 8월 7일)
+병원 근무자 관리 시스템은 Next.js, FastAPI, PostgreSQL, Redis, Nginx를 활용한 현대적인 웹 애플리케이션입니다.
 
-### ✅ 오늘 완료된 작업들 (2025년 8월 7일 오후)
+## 🏗️ 아키텍처
 
-#### 1. nginx 구조 개선 및 모니터링 시스템 구축
-- **nginx 위치 변경**: `services/hospital_workers/nginx/` → `services/hospital_workers/page_server/nginx/`
-- **nginx 설정 수정**: `auth-service:8000` → `hospital_workers-api-server-1:8000` (실제 컨테이너 이름 반영)
-- **모니터링 스크립트 작성**: `monitors/ensure_service_monitored.sh` 생성
-- **컨테이너 정보 개선**: 컨테이너 이름, 시작 시간, 메모리/CPU 사용률 등 상세 정보 표시
+### 서비스 구성
+- **Page Server**: Next.js + TypeScript + Tailwind CSS + Zustand + NextAuth.js
+- **API Server**: FastAPI (Python)
+- **Database Server**: PostgreSQL
+- **Cache Server**: Redis
+- **Reverse Proxy**: Nginx
 
-#### 2. 서비스 운영 및 테스트 스크립트 분리
-- **운영 스크립트**: `ensure_service_operated.sh` - 실제 운영용 (빌드 및 실행)
-- **테스트 스크립트**: `ensure_service_test.sh` - 상세 테스트용 (포트, HTTP, DB, Redis, 네트워크, API 테스트)
-- **모니터링 스크립트**: `ensure_service_monitored.sh` - 실시간 상태 모니터링
+### 기술 스택
+- **Frontend**: Next.js 15, TypeScript, Tailwind CSS, Zustand, NextAuth.js
+- **Backend**: FastAPI, Python
+- **Database**: PostgreSQL
+- **Cache**: Redis
+- **Proxy**: Nginx
+- **Container**: Docker & Docker Compose
 
-#### 3. 모든 서비스 정상 운영 확인
-- **실행 중인 컨테이너들**:
-  - ✅ page-server (74.94MiB, 11.66% CPU)
-  - ✅ api-server (59.36MiB, 0.47% CPU)
-  - ✅ db-server (33.23MiB, 0.01% CPU)
-  - ✅ nginx (2.68MiB, 0.00% CPU)
-  - ✅ redis (6.473MiB, 0.85% CPU)
+## 🚀 빠른 시작
 
-#### 4. 포트 및 HTTP 연결 테스트 완료
-- **포트 연결 정상**: 80, 5173, 8002, 5432, 6379 모든 포트 사용 중
-- **HTTP 연결 정상**: API Server, Nginx HTTP 연결 성공
-- **데이터베이스 연결 정상**: PostgreSQL, Redis 연결 성공
-- **API 엔드포인트 정상**: 기본 API 응답 확인
+### 1. 서비스 운영
 
-#### 5. 터미널 실행 규칙 개선
-- **시스템 터미널 우선**: `run_terminal_cmd` 대신 시스템 터미널 직접 사용
-- **bash 환경 전환**: zsh에서 bash로 개발 환경 통일
-- **빠른 명령어 실행**: `bash -c` 방식으로 안정적인 실행
+#### 대화형 메뉴 사용
+```bash
+./scripts/ensure_services_operated.sh
+```
 
-#### 6. 모든 문제 해결 완료
-- ✅ Page Server HTTP 연결 문제 해결 (소스 파일 추가)
-- ✅ 서비스 간 네트워크 연결 개선 (timeout 방식으로 변경)
-- ✅ 위치 가이드 API 구현 완료 (정상 응답 확인)
-- ✅ 모든 서비스 100% 정상 운영 확인
+#### 개별 서비스 실행
+```bash
+# 전체 서비스 실행
+./scripts/ensure_services_operated.sh --all
 
-### ✅ 이전 완료된 작업들
+# 개별 서비스 실행
+./scripts/ensure_services_operated.sh --page-server
+./scripts/ensure_services_operated.sh --api-server
+./scripts/ensure_services_operated.sh --db-server
+./scripts/ensure_services_operated.sh --nginx
+./scripts/ensure_services_operated.sh --redis
+```
 
-### ✅ 오늘 완료된 작업들
+### 2. 서비스 모니터링
 
-#### 1. 프로젝트 작업규칙 정립 및 문서화
-- **개발 환경 규칙**: uv + pyproject.toml + uv.lock 기반 가상환경 사용
-- **서비스 환경**: Linux/Docker + docker-compose 기반 환경 구성
-- **서비스 구조**: `services/` 내 디렉토리들이 MSA 서비스별 루트 디렉토리
-- **CLI 래퍼**: `pk_ensure` 접두사로 시작하는 파일들은 CLI 모드 실행 시 래퍼 파일
+#### 대화형 메뉴 사용
+```bash
+./monitors/ensure_service_monitored.sh
+```
 
-#### 2. 자동 실행 규칙 정립
-- **터미널 도구**: 일반 터미널 대신 `run_terminal_cmd` (터미널 실행 자동화 보조 툴) 사용
-- **OS 판단**: Linux 명령어와 Windows 명령어를 판단하여 적절한 터미널 선택
-- **WSL 환경**: WSL에서는 Linux 명령어를 `run_terminal_cmd`로 실행
-- **bash 환경**: zsh가 설치되어 있어도 bash 환경에서 실행 요청
+#### 명령행 옵션 사용
+```bash
+# 연속 모니터링 (실시간)
+./monitors/ensure_service_monitored.sh --continuous
 
-#### 3. 파일 및 디렉토리 관리 규칙
-- **문서 관리**: `services/`의 docs는 `docs/README_{MSA_service_name}.md` 형태로 분리 관리
-- **레거시 파일**: `deprecated`된 기존 버전 파이썬 파일에는 `# ` 접두사를 붙여서 rename
+# 요약 모니터링
+./monitors/ensure_service_monitored.sh --summary
 
-#### 4. 코드 작성 규칙 정립
-- **다국어 지원**: 모든 프로그램은 다국어 지원 가능하도록 작성 (PkMessage2025 객체 적극 활용)
-- **이모지 제외**: 코드 작성 시 이모지 사용 금지
-- **함수명 규칙**: 함수명은 `ensure_` 접두사로 시작
-- **파일명 규칙**: `.py`, `.sh`, `.cmd`, `.bat`, `.ps1` 확장자 파일들은 `ensure_` 접두사로 시작
+# 상세 모니터링
+./monitors/ensure_service_monitored.sh --detailed
+```
 
-#### 5. 테스트 코드 규칙
-- **테스트 파일**: `test_` 접두사를 붙여 명시적으로 작성
-- **테스트 위치**: `tests` 폴더에서 작성
+## 📊 서비스 운영 메뉴
 
-#### 6. 경로 처리 규칙
-- **Path 객체 활용**: 파이썬에서 파일 및 디렉토리 경로 처리 시 Path 객체 사용
-- **레거시 변환**: str path 사용 시 Path 객체로 변환 (예: `D_PKG_WINDOWS` → `Path(D_PKG_WINDOWS)`)
-- **경로 유틸리티**: `pkg_py/system_object/files.py`, `pkg_py/system_object/directories.py` 활용
+### 서비스 선택 옵션
+1. **Page Server (Next.js)** - 프론트엔드 서버
+2. **API Server (FastAPI)** - 백엔드 API 서버
+3. **Database Server (PostgreSQL)** - 데이터베이스 서버
+4. **Nginx (Reverse Proxy)** - 리버스 프록시
+5. **Redis (Cache)** - 캐시 서버
+6. **전체 서비스** - 모든 서비스 실행
 
-#### 7. 코드 구조 규칙
-- **클래스 작성**: `pkg_py/system_object`에 작성
-- **함수 작성**: `pkg_py/function_split`에 작성
-- **래퍼 패턴**: pkg_py에 래퍼 작성 시 주변 래퍼의 패턴을 비교하여 재생성
+### 기능
+- ✅ 개별 서비스 선택 실행
+- ✅ 서비스별 상태 확인
+- ✅ 연결 테스트 자동화
+- ✅ 컨테이너 빌드 및 실행
+- ✅ 오류 처리 및 로깅
 
-#### 8. 보안 규칙
-- **민감정보 경고**: 비밀번호, API 키 등 민감한 개인정보가 포함된 컨텐츠에 대해 경고 요청
+## 🔍 서비스 모니터링 메뉴
 
-#### 9. 프론트엔드 개발 환경 구축
-- **React + Vite 기반 프론트엔드**: Hot Reload 지원 개발 환경
-- **개발모드/운영모드 구분**: 
-  - `Dockerfile.dev`: 개발모드용 (hot reload 지원)
-  - `Dockerfile.prod`: 운영모드용 (정적 파일 빌드)
-- **프론트엔드 서비스 구성**:
-  - ✅ React + Vite 개발 환경
-  - ✅ Hot Reload 기능 (코드 변경 시 자동 새로고침)
-  - ✅ nginx 프록시 연동
-  - ✅ Docker 컨테이너화 완료
+### 모니터링 옵션
+1. **Page Server 모니터링** - 프론트엔드 서버 상태
+2. **API Server 모니터링** - 백엔드 API 서버 상태
+3. **Database Server 모니터링** - 데이터베이스 서버 상태
+4. **Nginx 모니터링** - 리버스 프록시 상태
+5. **Redis 모니터링** - 캐시 서버 상태
+6. **전체 서비스 모니터링** - 모든 서비스 종합 모니터링
+7. **연속 모니터링 (실시간)** - 실시간 모니터링
+8. **요약 모니터링** - 간단한 상태 요약
 
-#### 10. 프론트엔드 접속 환경
-- **직접 접근**: `http://localhost:5173`
-- **nginx 프록시**: `http://localhost`
-- **개발 환경**: bash 환경에서 실행
-- **Hot Reload 테스트**: 파일 수정 시 자동 반영 확인
+### 모니터링 항목
+- 🐳 Docker 서비스 상태
+- 📦 컨테이너 상태 및 리소스 사용량
+- 🔌 포트 연결 상태
+- 🌐 HTTP 연결 테스트
+- 🗄️ 데이터베이스 연결 상태
+- 🔴 Redis 연결 상태
+- 💾 전체 리소스 사용량
+- 🌐 서비스 간 네트워크 연결
+- 🧪 API 엔드포인트 테스트
 
-#### 11. 스크립트 네이밍 컨벤션 개선
-- **파일명 변경**: `ensure_docker_*` → `ensure_containers_*`
-- **내용 패턴 변경**: 모든 스크립트 내 `ensure_docker_` → `ensure_containers_`
-- **변경된 파일들**:
-  - `ensure_containers_install.sh`
-  - `ensure_containers_compose_install.sh`
-  - `ensure_containers_build.sh`
-  - `ensure_containers_run.sh`
-  - `ensure_containers_stop.sh`
+## 📁 프로젝트 구조
 
-#### 12. 서비스 운영 환경 검증 및 테스트
-- **Docker 서비스 상태 확인**: 모든 컨테이너 정상 실행 확인
-- **API 테스트 완료**: 13개 엔드포인트 모두 성공 (100% 성공률)
-- **서비스 구성 요소 검증**:
-  - ✅ Nginx 리버스 프록시 (포트 80)
-  - ✅ Auth Service (포트 8001)
-  - ✅ API Service (포트 8002)
-  - ✅ **Frontend Service (포트 5173)** (새로 추가)
-  - ✅ PostgreSQL 데이터베이스 (포트 5432)
-  - ✅ Redis 캐시 (포트 6379)
-
-#### 13. API 엔드포인트 테스트 결과
-- **인증 관련 API**:
-  - ✅ POST /heal_base_hospital_worker/v1/api/ensure/login/
-  - ✅ GET /heal_base_hospital_worker/v1/api/ensure/user/profile/
-- **병원 정보 API**:
-  - ✅ GET /heal_base_hospital_worker/v1/api/ensure/hospital/locations/
-  - ✅ GET /heal_base_hospital_worker/v1/api/ensure/hospital/location/101
-- **웹 인터페이스 API**:
-  - ✅ 로그인 페이지 및 가이드
-  - ✅ 회원가입 페이지
-  - ✅ Google OAuth 연동 페이지
-  - ✅ 위치 가이드 페이지
-
-#### 14. 개발 환경 최적화
-- **Bash 환경 전환**: zsh에서 bash로 개발 환경 통일
-- **Docker 권한 설정**: sudo 권한으로 Docker 명령어 실행 환경 구성
-- **서비스 모니터링**: 실시간 컨테이너 상태 확인 및 로그 분석
-
-### ✅ 이전 완료된 작업들
-
-#### 1. MSA 아키텍처 구축
-- **DDD + MSA + Docker** 기반 서비스 구조 설계
-- **로그인 서버** (`auth-service`) - 사용자 인증 전담
-- **API 서버** (`api-service`) - 비즈니스 로직 처리
-- **Nginx** - 리버스 프록시
-- **PostgreSQL** - 데이터베이스
-- **Redis** - 캐시/세션
-
-#### 2. 자동화 스크립트 개발
-- `scripts/ensure_containers_install.sh` - Docker 설치 자동화
-- `scripts/ensure_containers_compose_install.sh` - Docker Compose 설치 자동화
-- `scripts/ensure_containers_build.sh` - 컨테이너 빌드 자동화
-- `scripts/ensure_containers_run.sh` - 컨테이너 실행 자동화
-- `scripts/ensure_containers_stop.sh` - 컨테이너 중지 자동화
-- `scripts/ensure_service_test.sh` - 서비스 빌드 테스트
-- `scripts/ensure_service_operated.sh` - 서비스 운영 테스트
-
-#### 3. FastAPI 서비스 구현
-- **인증 서비스**: 로그인/회원가입 API
-- **비즈니스 로직 서비스**: 메인 페이지, 위치 가이드 API
-- **API 엔드포인트**:
-  - `POST /api/heal_base_hospital_worker/v1/ensure/login/`
-  - `POST /api/heal_base_hospital_worker/v1/ensure/signup/`
-  - `GET /api/heal_base_hospital_worker/v1/ensure/main/`
-  - `GET /api/heal_base_hospital_worker/v1/ensure/main/location/{실}`
-
-#### 4. 테스트 결과
-- ✅ Docker 서비스 정상
-- ✅ 컨테이너 빌드 성공
-- ✅ 컨테이너 실행 성공
-- ✅ HTTP 연결 성공
-- ✅ 데이터베이스 연결 성공
-- ✅ Redis 연결 성공
-- ✅ API 테스트 성공
-
-### 🏗️ 기술 스택
-- **아키텍처**: DDD + MSA
-- **API 프레임워크**: FastAPI (Python 3.13+)
-- **프론트엔드**: Next.js (React)
-- **데이터베이스**: PostgreSQL
-- **캐시**: Redis
-- **리버스 프록시**: Nginx
-- **개발 환경**: Bash, uv (Python 패키지 관리)
-- **배포**: AWS EC2 (API/DB), Vercel (Frontend)
-
-### 📂 프로젝트 구조
 ```
 business_with_ai/
-├── services/hospital_workers/     # MSA 서비스들
-│   ├── page_server/              # Next.js 프론트엔드 서비스
-│   ├── api_server/               # FastAPI 백엔드 서비스
-│   ├── db_server/                # PostgreSQL 데이터베이스 서비스
-│   ├── shared/                   # 공통 모듈
-│   ├── nginx/                    # 리버스 프록시
-│   └── docker-compose.yml        # Docker 구성
-├── scripts/                      # 자동화 스크립트들 (ensure_ prefix)
-├── tests/                        # 테스트 스크립트들 (test_ prefix)
-├── prompts/                      # AI 기반 코드생성 프롬프트 모음
-├── business_documents/           # 비즈니스 기획서
-└── logs/                         # 로그 파일들
+├── scripts/
+│   ├── ensure_services_operated.sh      # 서비스 운영 스크립트
+│   ├── ensure_service_shutdowned.sh     # 서비스 중지 스크립트
+│   └── ...
+├── monitors/
+│   └── ensure_service_monitored.sh      # 서비스 모니터링 스크립트
+├── services/
+│   └── hospital_workers/
+│       ├── page_server/                 # Next.js 프론트엔드
+│       ├── api_server/                  # FastAPI 백엔드
+│       ├── db_server/                   # PostgreSQL 데이터베이스
+│       └── docker-compose.yml          # Docker Compose 설정
+├── docs/                               # 문서
+├── tests/                              # 테스트
+└── logs/                               # 로그
 ```
 
-### 🚀 사용 방법
+## 🛠️ 개발 환경 설정
+
+### 필수 요구사항
+- Docker & Docker Compose
+- Node.js 18+
+- Python 3.8+
+
+### 환경 설정
 ```bash
-# Docker 설치 (필요시)
-./scripts/ensure_containers_install.sh
+# 1. 프로젝트 클론
+git clone <repository-url>
+cd business_with_ai
 
-# Docker Compose 설치 (필요시)
-./scripts/ensure_containers_compose_install.sh
+# 2. 서비스 실행
+./scripts/ensure_services_operated.sh
 
-# 서비스 빌드
-./scripts/ensure_containers_build.sh
-
-# 서비스 실행
-./scripts/ensure_containers_run.sh
-
-# 서비스 운영 테스트
-./scripts/ensure_service_operated.sh
-
-# API 테스트
-python3 scripts/all_api_test.py
-
-# 서비스 중지
-./scripts/ensure_containers_stop.sh
+# 3. 모니터링
+./monitors/ensure_service_monitored.sh
 ```
 
-### 📊 현재 서비스 상태
-- **전체 API 엔드포인트**: 13개
-- **테스트 성공률**: 100%
-- **서비스 가동 시간**: 24/7 운영 준비 완료
-- **다음 단계**: 프론트엔드 개발 또는 추가 기능 구현
+## 📈 서비스 상태 확인
+
+### 포트 정보
+- **Page Server**: http://localhost:5173
+- **API Server**: http://localhost:8002
+- **Nginx**: http://localhost:80
+- **Database**: localhost:5432
+- **Redis**: localhost:6379
+
+### API 엔드포인트
+- **Health Check**: `GET /health`
+- **Location Guide**: `GET /heal_base_hospital_worker/v1/web/ensure/logined/and/hospital-location-guided/{room}`
+
+## 🔧 문제 해결
+
+### 일반적인 문제
+1. **Docker 서비스가 실행되지 않음**
+   ```bash
+   sudo systemctl start docker
+   ```
+
+2. **포트 충돌**
+   ```bash
+   # 사용 중인 포트 확인
+   netstat -tuln | grep :80
+   ```
+
+3. **컨테이너 실행 실패**
+   ```bash
+   # 로그 확인
+   docker compose -f services/hospital_workers/docker-compose.yml logs
+   ```
+
+### 로그 확인
+```bash
+# 특정 서비스 로그
+docker compose -f services/hospital_workers/docker-compose.yml logs page-server
+
+# 전체 로그
+docker compose -f services/hospital_workers/docker-compose.yml logs
+```
+
+## 📚 추가 문서
+
+- [API 문서](./docs/api.md)
+- [배포 가이드](./docs/deployment.md)
+- [개발 가이드](./docs/development.md)
+
+## 🤝 기여하기
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📄 라이선스
+
+이 프로젝트는 MIT 라이선스 하에 배포됩니다.
+
+---
+
+**🏥 병원 근무자 관리 시스템** - 현대적이고 효율적인 병원 근무 관리 솔루션
 
 
 
