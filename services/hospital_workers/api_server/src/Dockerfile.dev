@@ -13,13 +13,24 @@ FROM base as development
 
 WORKDIR /app
 
-# 개발용 의존성만 설치 (빠른 빌드를 위해)
+# 핵심 개발 의존성만 설치 (빠른 빌드를 위해)
 RUN pip install --no-cache-dir \
-    fastapi>=0.104.0 \
-    "uvicorn[standard]>=0.24.0" \
-    python-multipart>=0.0.6 \
-    pydantic>=2.0.0 \
-    watchdog>=3.0.0
+    fastapi \
+    "uvicorn[standard]" \
+    python-multipart \
+    pydantic \
+    watchdog
+
+# 데이터베이스 관련 패키지 (필요시에만)
+RUN pip install --no-cache-dir \
+    sqlalchemy \
+    psycopg2-binary
+
+# 인증 관련 패키지 (필요시에만)
+RUN pip install --no-cache-dir \
+    python-jose \
+    passlib \
+    bcrypt
 
 # 포트 노출
 EXPOSE 8000
