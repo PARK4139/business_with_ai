@@ -27,7 +27,7 @@ logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
     handlers=[
-        logging.FileHandler('frontend_login_test.log', encoding='utf-8'),
+        logging.FileHandler('logs/frontend_login_test.log', encoding='utf-8'),
         logging.StreamHandler()
     ]
 )
@@ -154,7 +154,7 @@ class TestFrontendLoginRoutine:
         
         try:
             chrome_options = Options()
-            chrome_options.add_argument("--headless")  # 헤드리스 모드
+            # chrome_options.add_argument("--headless")  # 헤드리스 모드 해제
             chrome_options.add_argument("--no-sandbox")
             chrome_options.add_argument("--disable-dev-shm-usage")
             chrome_options.add_argument("--disable-gpu")

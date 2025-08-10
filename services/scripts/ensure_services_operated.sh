@@ -6,6 +6,16 @@
 
 set -e
 
+# 프로젝트 루트 디렉토리 설정
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+PROJECT_ROOT="$(cd "$SCRIPT_DIR/../.." && pwd)"
+COMPOSE_FILE="$PROJECT_ROOT/services/hospital_workers/docker-compose.yml"
+
+# 디버깅을 위한 경로 출력
+echo "🔍 스크립트 디렉토리: $SCRIPT_DIR"
+echo "🔍 프로젝트 루트: $PROJECT_ROOT"
+echo "🔍 Docker Compose 파일: $COMPOSE_FILE"
+
 # 색상 정의
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -50,39 +60,39 @@ run_service() {
     case $service in
         "page-server")
             echo "📦 Page Server 빌드 중..."
-            docker compose -f services/hospital_workers/docker-compose.yml build page-server
+            docker compose -f "$COMPOSE_FILE" build page-server
             echo "🚀 Page Server 실행 중..."
-            docker compose -f services/hospital_workers/docker-compose.yml up -d page-server
+            docker compose -f "$COMPOSE_FILE" up -d page-server
             ;;
         "api-server")
             echo "📦 API Server 빌드 중..."
-            docker compose -f services/hospital_workers/docker-compose.yml build api-server
+            docker compose -f "$COMPOSE_FILE" build api-server
             echo "🚀 API Server 실행 중..."
-            docker compose -f services/hospital_workers/docker-compose.yml up -d api-server
+            docker compose -f "$COMPOSE_FILE" up -d api-server
             ;;
         "db-server")
             echo "📦 Database Server 빌드 중..."
-            docker compose -f services/hospital_workers/docker-compose.yml build db-server
+            docker compose -f "$COMPOSE_FILE" build db-server
             echo "🚀 Database Server 실행 중..."
-            docker compose -f services/hospital_workers/docker-compose.yml up -d db-server
+            docker compose -f "$COMPOSE_FILE" up -d db-server
             ;;
         "nginx")
             echo "📦 Nginx 빌드 중..."
-            docker compose -f services/hospital_workers/docker-compose.yml build nginx
+            docker compose -f "$COMPOSE_FILE" build nginx
             echo "🚀 Nginx 실행 중..."
-            docker compose -f services/hospital_workers/docker-compose.yml up -d nginx
+            docker compose -f "$COMPOSE_FILE" up -d nginx
             ;;
         "redis")
             echo "📦 Redis 빌드 중..."
-            docker compose -f services/hospital_workers/docker-compose.yml build redis
+            docker compose -f "$COMPOSE_FILE" build redis
             echo "🚀 Redis 실행 중..."
-            docker compose -f services/hospital_workers/docker-compose.yml up -d redis
+            docker compose -f "$COMPOSE_FILE" up -d redis
             ;;
         "all")
             echo "📦 전체 서비스 빌드 중..."
-            docker compose -f services/hospital_workers/docker-compose.yml build
+            docker compose -f "$COMPOSE_FILE" build
             echo "🚀 전체 서비스 실행 중..."
-            docker compose -f services/hospital_workers/docker-compose.yml up -d
+            docker compose -f "$COMPOSE_FILE" up -d
             ;;
     esac
     
@@ -96,11 +106,11 @@ check_service_status() {
     
     echo -e "${CYAN}🔍 $service_name 상태 확인...${NC}"
     
-    if docker compose -f services/hospital_workers/docker-compose.yml ps | grep -q "$service.*Up"; then
+    if docker compose -f "$COMPOSE_FILE" ps | grep -q "$service.*Up"; then
         echo -e "${GREEN}✅ $service_name 실행 중${NC}"
         
         # 컨테이너 상세 정보
-        container_id=$(docker compose -f services/hospital_workers/docker-compose.yml ps -q $service)
+        container_id=$(docker compose -f "$COMPOSE_FILE" ps -q $service)
         if [ ! -z "$container_id" ]; then
             echo "   📦 컨테이너 ID: $container_id"
             echo "   📊 상태: $(docker inspect --format='{{.State.Status}}' $container_id)"
@@ -142,14 +152,14 @@ test_connection() {
             fi
             ;;
         "db-server")
-            if docker compose -f services/hospital_workers/docker-compose.yml exec -T db-server pg_isready -U postgres > /dev/null 2>&1; then
+            if docker compose -f "$COMPOSE_FILE" exec -T db-server pg_isready -U postgres > /dev/null 2>&1; then
                 echo -e "${GREEN}✅ Database 연결 성공${NC}"
             else
                 echo -e "${RED}❌ Database 연결 실패${NC}"
             fi
             ;;
         "redis")
-            if docker compose -f services/hospital_workers/docker-compose.yml exec -T redis redis-cli ping | grep -q "PONG"; then
+            if docker compose -f "$COMPOSE_FILE" exec -T redis redis-cli ping | grep -q "PONG"; then
                 echo -e "${GREEN}✅ Redis 연결 성공${NC}"
             else
                 echo -e "${RED}❌ Redis 연결 실패${NC}"
@@ -213,10 +223,10 @@ main() {
                     # 기존 컨테이너 정리 (선택된 서비스만)
                     echo -e "${YELLOW}🧹 기존 컨테이너 정리...${NC}"
                     if [ "$selected_service" = "all" ]; then
-                        docker compose -f services/hospital_workers/docker-compose.yml down --remove-orphans 2>/dev/null || true
+                        docker compose -f "$COMPOSE_FILE" down --remove-orphans 2>/dev/null || true
                     else
-                        docker compose -f services/hospital_workers/docker-compose.yml stop $selected_service 2>/dev/null || true
-                        docker compose -f services/hospital_workers/docker-compose.yml rm -f $selected_service 2>/dev/null || true
+                        docker compose -f "$COMPOSE_FILE" stop $selected_service 2>/dev/null || true
+                        docker compose -f "$COMPOSE_FILE" rm -f $selected_service 2>/dev/null || true
                     fi
                     
                     # 서비스 실행

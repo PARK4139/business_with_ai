@@ -1,0 +1,206 @@
+2025-08-10 19:04:06,150 - INFO - 🪟 Windows 환경에서 Hospital Workers Management System 테스트 환경 설정을 시작합니다...
+2025-08-10 19:04:06,199 - INFO - 1️⃣ 가상환경 생성 중...
+2025-08-10 19:04:06,200 - INFO - ✅ 가상환경이 이미 존재합니다
+2025-08-10 19:04:06,202 - INFO - 2️⃣ 가상환경 활성화 중...
+2025-08-10 19:04:06,231 - INFO - 3️⃣ pip 업그레이드 중...
+2025-08-10 19:04:07,871 - WARNING - ⚠️ pip 업그레이드 실패: C:\Users\pk\Downloads\business_with_ai\.venv_windows\Scripts\python.exe: No module named pip
+
+2025-08-10 19:04:07,878 - INFO - 4️⃣ 필요한 패키지 설치 중...
+2025-08-10 19:04:07,878 - INFO - 📦 selenium 설치 중...
+2025-08-10 19:04:08,812 - ERROR - ❌ selenium 설치 실패: C:\Users\pk\Downloads\business_with_ai\.venv_windows\Scripts\python.exe: No module named pip
+
+2025-08-10 19:04:08,815 - INFO - 🪟 Windows 환경 설정 테스트 시작...
+2025-08-10 19:04:08,823 - INFO - ✅ 모든 필요한 패키지가 설치되어 있습니다
+2025-08-10 19:04:08,828 - INFO - ✅ Windows 환경 설정 테스트 통과
+2025-08-10 19:04:08,848 - INFO - 🧪 Windows 환경에서 테스트 실행 테스트 시작...
+2025-08-10 19:04:08,857 - INFO - 📋 test_services_running.py 테스트 실행 준비 완료
+2025-08-10 19:04:08,861 - WARNING - ⚠️ test_frontend_selenium.py 테스트 파일을 찾을 수 없습니다
+2025-08-10 19:04:08,862 - INFO - ✅ Windows 환경에서 테스트 실행 테스트 통과
+2025-08-10 19:04:08,872 - INFO - 🚀 Chrome WebDriver 설정 시작...
+2025-08-10 19:04:08,876 - INFO - ====== WebDriver manager ======
+2025-08-10 19:04:29,877 - INFO - Get LATEST chromedriver version for google-chrome
+2025-08-10 19:04:30,015 - INFO - Get LATEST chromedriver version for google-chrome
+2025-08-10 19:04:30,082 - INFO - Driver [C:\Users\pk\.wdm\drivers\chromedriver\win64\138.0.7204.183\chromedriver-win32/chromedriver.exe] found in cache
+2025-08-10 19:04:34,615 - ERROR - ⚠️ WebDriver 종료 중 오류: cannot access local variable 'driver' where it is not associated with a value
+2025-08-11 01:02:07,698 - INFO - 🪟 Windows 환경에서 Hospital Workers Management System 테스트 환경 설정을 시작합니다...
+2025-08-11 01:02:07,699 - INFO - 1️⃣ 가상환경 생성 중...
+2025-08-11 01:02:07,700 - INFO - ✅ 가상환경이 이미 존재합니다
+2025-08-11 01:02:07,706 - INFO - 2️⃣ 가상환경 활성화 중...
+2025-08-11 01:02:07,709 - INFO - 3️⃣ pip 업그레이드 중...
+2025-08-11 01:02:14,710 - INFO - 4️⃣ 필요한 패키지 설치 중...
+2025-08-11 01:02:14,712 - INFO - 📦 selenium 설치 중...
+2025-08-11 01:02:20,476 - INFO - ✅ selenium 설치 완료
+2025-08-11 01:02:20,476 - INFO - 📦 pytest 설치 중...
+2025-08-11 01:02:25,261 - INFO - ✅ pytest 설치 완료
+2025-08-11 01:02:25,261 - INFO - 📦 webdriver-manager 설치 중...
+2025-08-11 01:02:30,039 - INFO - ✅ webdriver-manager 설치 완료
+2025-08-11 01:02:30,039 - INFO - 📦 requests 설치 중...
+2025-08-11 01:02:34,786 - INFO - ✅ requests 설치 완료
+2025-08-11 01:02:34,787 - INFO - 🎉 Windows 환경 설정 완료! 이제 테스트를 실행할 수 있습니다.
+2025-08-11 01:02:34,789 - INFO - 🪟 Windows 환경 설정 테스트 시작...
+2025-08-11 01:02:34,790 - INFO - ✅ 모든 필요한 패키지가 설치되어 있습니다
+2025-08-11 01:02:34,790 - INFO - ✅ Windows 환경 설정 테스트 통과
+2025-08-11 01:02:34,793 - INFO - 🧪 Windows 환경에서 테스트 실행 테스트 시작...
+2025-08-11 01:02:34,794 - INFO - 📋 test_services_running.py 테스트 실행 준비 완료
+2025-08-11 01:02:34,795 - INFO - 📋 test_frontend_selenium.py 테스트 실행 준비 완료
+2025-08-11 01:02:34,796 - INFO - ✅ Windows 환경에서 테스트 실행 테스트 통과
+2025-08-11 01:02:34,806 - INFO - 🚀 Chrome WebDriver 설정 시작...
+2025-08-11 01:02:34,807 - INFO - ====== WebDriver manager ======
+2025-08-11 01:02:53,093 - INFO - Get LATEST chromedriver version for google-chrome
+2025-08-11 01:02:53,171 - INFO - Get LATEST chromedriver version for google-chrome
+2025-08-11 01:02:53,226 - INFO - Driver [C:\Users\pk\.wdm\drivers\chromedriver\win64\138.0.7204.183\chromedriver-win32/chromedriver.exe] found in cache
+2025-08-11 01:02:56,905 - INFO - ✅ Chrome WebDriver 설정 완료
+2025-08-11 01:02:56,908 - INFO - 🔍 페이지 로드 및 제목 확인 테스트 시작...
+2025-08-11 01:03:14,803 - INFO - 📄 페이지 로드 완료
+2025-08-11 01:03:14,912 - INFO - 📋 페이지 제목: Create Next App
+2025-08-11 01:03:15,018 - INFO - ✅ 로그인 폼 발견
+2025-08-11 01:03:16,055 - INFO - 📸 페이지 로드 성공 스크린샷 저장
+2025-08-11 01:03:16,070 - INFO - 🔍 로그인 폼 구조 확인 테스트 시작...
+2025-08-11 01:03:26,619 - INFO - ✅ 이메일 입력 필드 확인
+2025-08-11 01:03:26,682 - INFO - ✅ 비밀번호 입력 필드 확인
+2025-08-11 01:03:26,762 - INFO - ✅ 로그인 버튼 확인
+2025-08-11 01:03:26,816 - INFO - ✅ 폼 필드 타입 확인
+2025-08-11 01:03:26,820 - INFO - 🔍 유효한 자격증명으로 로그인 테스트 시작...
+2025-08-11 01:04:12,366 - INFO - 📧 이메일 입력: test@example.com
+2025-08-11 01:04:12,375 - INFO - 🔒 비밀번호 입력: testpassword123
+2025-08-11 01:04:13,843 - INFO - 🔘 로그인 버튼 클릭 완료
+2025-08-11 01:04:34,510 - WARNING - ⚠️ 로그인 결과 메시지를 찾을 수 없습니다. API 서버 상태를 확인해주세요.
+2025-08-11 01:04:34,515 - INFO - ✅ 로그인 테스트 완료 (결과 메시지 없음)
+2025-08-11 01:04:34,865 - INFO - 🔍 잘못된 자격증명으로 로그인 테스트 시작...
+2025-08-11 01:04:43,227 - WARNING - Retrying (Retry(total=2, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000024310EBFED0>: Failed to establish a new connection: [WinError 10061] 대상 컴퓨터에서 연결을 거부했으므로 연결하지 못했습니다')': /session/461779e707fd3f5c92c994a84a4e9599
+2025-08-11 01:04:47,295 - WARNING - Retrying (Retry(total=1, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000024310FEE0D0>: Failed to establish a new connection: [WinError 10061] 대상 컴퓨터에서 연결을 거부했으므로 연결하지 못했습니다')': /session/461779e707fd3f5c92c994a84a4e9599
+2025-08-11 01:04:51,341 - WARNING - Retrying (Retry(total=0, connect=None, read=None, redirect=None, status=None)) after connection broken by 'NewConnectionError('<urllib3.connection.HTTPConnection object at 0x0000024310EEF950>: Failed to establish a new connection: [WinError 10061] 대상 컴퓨터에서 연결을 거부했으므로 연결하지 못했습니다')': /session/461779e707fd3f5c92c994a84a4e9599
+2025-08-11 01:04:55,425 - INFO - 🔒 Chrome WebDriver 종료
+2025-08-11 01:08:21,498 - INFO - 🪟 Windows 환경에서 Hospital Workers Management System 테스트 환경 설정을 시작합니다...
+2025-08-11 01:08:21,500 - INFO - 1️⃣ 가상환경 생성 중...
+2025-08-11 01:08:21,501 - INFO - ✅ 가상환경이 이미 존재합니다
+2025-08-11 01:08:21,501 - INFO - 2️⃣ 가상환경 활성화 중...
+2025-08-11 01:08:21,502 - INFO - 3️⃣ pip 업그레이드 중...
+2025-08-11 01:08:27,484 - INFO - 4️⃣ 필요한 패키지 설치 중...
+2025-08-11 01:08:27,485 - INFO - 📦 selenium 설치 중...
+2025-08-11 01:08:32,364 - INFO - ✅ selenium 설치 완료
+2025-08-11 01:08:32,365 - INFO - 📦 pytest 설치 중...
+2025-08-11 01:08:37,385 - INFO - ✅ pytest 설치 완료
+2025-08-11 01:08:37,385 - INFO - 📦 webdriver-manager 설치 중...
+2025-08-11 01:08:42,460 - INFO - ✅ webdriver-manager 설치 완료
+2025-08-11 01:08:42,461 - INFO - 📦 requests 설치 중...
+2025-08-11 01:08:47,146 - INFO - ✅ requests 설치 완료
+2025-08-11 01:08:47,147 - INFO - 🎉 Windows 환경 설정 완료! 이제 테스트를 실행할 수 있습니다.
+2025-08-11 01:08:47,148 - INFO - 🪟 Windows 환경 설정 테스트 시작...
+2025-08-11 01:08:47,149 - INFO - ✅ 모든 필요한 패키지가 설치되어 있습니다
+2025-08-11 01:08:47,150 - INFO - ✅ Windows 환경 설정 테스트 통과
+2025-08-11 01:08:47,159 - INFO - 🧪 Windows 환경에서 테스트 실행 테스트 시작...
+2025-08-11 01:08:47,162 - INFO - 📋 test_services_running.py 테스트 실행 준비 완료
+2025-08-11 01:08:47,163 - WARNING - ⚠️ test_frontend_selenium.py 테스트 파일을 찾을 수 없습니다
+2025-08-11 01:08:47,163 - INFO - ✅ Windows 환경에서 테스트 실행 테스트 통과
+2025-08-11 01:08:47,168 - INFO - 🚀 Chrome WebDriver 설정 시작...
+2025-08-11 01:08:47,169 - INFO - ====== WebDriver manager ======
+2025-08-11 01:09:05,229 - INFO - Get LATEST chromedriver version for google-chrome
+2025-08-11 01:09:05,298 - INFO - Get LATEST chromedriver version for google-chrome
+2025-08-11 01:09:05,371 - INFO - Driver [C:\Users\pk\.wdm\drivers\chromedriver\win64\138.0.7204.183\chromedriver-win32/chromedriver.exe] found in cache
+2025-08-11 01:09:10,704 - INFO - ✅ Chrome WebDriver 설정 완료
+2025-08-11 01:09:10,732 - INFO - 🔍 페이지 로드 및 제목 확인 테스트 시작...
+2025-08-11 01:09:22,212 - INFO - 📄 페이지 로드 완료
+2025-08-11 01:09:22,323 - INFO - 📋 페이지 제목: Create Next App
+2025-08-11 01:09:22,439 - INFO - ✅ 로그인 폼 발견
+2025-08-11 01:09:22,878 - INFO - 📸 페이지 로드 성공 스크린샷 저장
+2025-08-11 01:09:22,896 - INFO - 🔍 로그인 폼 구조 확인 테스트 시작...
+2025-08-11 01:09:26,240 - INFO - ✅ 이메일 입력 필드 확인
+2025-08-11 01:09:26,278 - INFO - ✅ 비밀번호 입력 필드 확인
+2025-08-11 01:09:26,362 - INFO - ✅ 로그인 버튼 확인
+2025-08-11 01:09:26,436 - INFO - ✅ 폼 필드 타입 확인
+2025-08-11 01:09:26,443 - INFO - 🔍 유효한 자격증명으로 로그인 테스트 시작...
+2025-08-11 01:09:29,978 - INFO - 📧 이메일 입력: test@example.com
+2025-08-11 01:09:29,979 - INFO - 🔒 비밀번호 입력: testpassword123
+2025-08-11 01:09:30,742 - INFO - 🔘 로그인 버튼 클릭 완료
+2025-08-11 01:09:51,376 - WARNING - ⚠️ 로그인 결과 메시지를 찾을 수 없습니다. API 서버 상태를 확인해주세요.
+2025-08-11 01:09:51,385 - INFO - ✅ 로그인 테스트 완료 (결과 메시지 없음)
+2025-08-11 01:09:51,700 - INFO - 🔍 잘못된 자격증명으로 로그인 테스트 시작...
+2025-08-11 01:09:58,523 - INFO - 📧 잘못된 이메일 입력: invalid@example.com
+2025-08-11 01:09:58,524 - INFO - 🔒 잘못된 비밀번호 입력: wrongpassword
+2025-08-11 01:09:59,305 - INFO - 🔘 로그인 버튼 클릭 완료
+2025-08-11 01:10:43,858 - INFO - 🔒 Chrome WebDriver 종료
+2025-08-11 01:12:47,661 - INFO - 🪟 Windows 환경에서 Hospital Workers Management System 테스트 환경 설정을 시작합니다...
+2025-08-11 01:12:47,662 - INFO - 1️⃣ 가상환경 생성 중...
+2025-08-11 01:12:47,663 - INFO - ✅ 가상환경이 이미 존재합니다
+2025-08-11 01:12:47,664 - INFO - 2️⃣ 가상환경 활성화 중...
+2025-08-11 01:12:47,665 - INFO - 3️⃣ pip 업그레이드 중...
+2025-08-11 01:12:55,488 - INFO - 4️⃣ 필요한 패키지 설치 중...
+2025-08-11 01:12:55,489 - INFO - 📦 selenium 설치 중...
+2025-08-11 01:13:00,262 - INFO - ✅ selenium 설치 완료
+2025-08-11 01:13:00,263 - INFO - 📦 pytest 설치 중...
+2025-08-11 01:13:04,905 - INFO - ✅ pytest 설치 완료
+2025-08-11 01:13:04,906 - INFO - 📦 webdriver-manager 설치 중...
+2025-08-11 01:13:10,972 - INFO - ✅ webdriver-manager 설치 완료
+2025-08-11 01:13:10,972 - INFO - 📦 requests 설치 중...
+2025-08-11 01:13:15,589 - INFO - ✅ requests 설치 완료
+2025-08-11 01:13:15,590 - INFO - 🎉 Windows 환경 설정 완료! 이제 테스트를 실행할 수 있습니다.
+2025-08-11 01:13:15,591 - INFO - 🪟 Windows 환경 설정 테스트 시작...
+2025-08-11 01:13:15,592 - INFO - ✅ 모든 필요한 패키지가 설치되어 있습니다
+2025-08-11 01:13:15,593 - INFO - ✅ Windows 환경 설정 테스트 통과
+2025-08-11 01:13:15,603 - INFO - 🧪 Windows 환경에서 테스트 실행 테스트 시작...
+2025-08-11 01:13:15,604 - INFO - 📋 test_services_running.py 테스트 실행 준비 완료
+2025-08-11 01:13:15,605 - WARNING - ⚠️ test_frontend_selenium.py 테스트 파일을 찾을 수 없습니다
+2025-08-11 01:13:15,605 - INFO - ✅ Windows 환경에서 테스트 실행 테스트 통과
+2025-08-11 01:13:15,608 - INFO - 🚀 Chrome WebDriver 설정 시작...
+2025-08-11 01:13:15,609 - INFO - ====== WebDriver manager ======
+2025-08-11 01:13:33,056 - INFO - Get LATEST chromedriver version for google-chrome
+2025-08-11 01:13:33,133 - INFO - Get LATEST chromedriver version for google-chrome
+2025-08-11 01:13:33,190 - INFO - Driver [C:\Users\pk\.wdm\drivers\chromedriver\win64\138.0.7204.183\chromedriver-win32/chromedriver.exe] found in cache
+2025-08-11 01:13:39,915 - INFO - ✅ Chrome WebDriver 설정 완료
+2025-08-11 01:13:39,918 - INFO - 🔍 페이지 로드 및 제목 확인 테스트 시작...
+2025-08-11 01:13:50,069 - INFO - 📄 페이지 로드 완료
+2025-08-11 01:13:50,166 - INFO - 📋 페이지 제목: Create Next App
+2025-08-11 01:13:50,285 - INFO - ✅ 로그인 폼 발견
+2025-08-11 01:13:50,671 - INFO - 📸 페이지 로드 성공 스크린샷 저장
+2025-08-11 01:13:50,701 - INFO - 🔍 로그인 폼 구조 확인 테스트 시작...
+2025-08-11 01:13:54,509 - INFO - ✅ 이메일 입력 필드 확인
+2025-08-11 01:13:54,600 - INFO - ✅ 비밀번호 입력 필드 확인
+2025-08-11 01:13:54,686 - INFO - ✅ 로그인 버튼 확인
+2025-08-11 01:13:54,746 - INFO - ✅ 폼 필드 타입 확인
+2025-08-11 01:13:54,753 - INFO - 🔍 유효한 자격증명으로 로그인 테스트 시작...
+2025-08-11 01:13:59,287 - INFO - 📧 이메일 입력: test@example.com
+2025-08-11 01:13:59,293 - INFO - 🔒 비밀번호 입력: testpassword123
+2025-08-11 01:14:00,081 - INFO - 🔘 로그인 버튼 클릭 완료
+2025-08-11 01:14:20,666 - WARNING - ⚠️ 로그인 결과 메시지를 찾을 수 없습니다. API 서버 상태를 확인해주세요.
+2025-08-11 01:14:20,666 - INFO - ✅ 로그인 테스트 완료 (결과 메시지 없음)
+2025-08-11 01:14:21,066 - INFO - 🔍 잘못된 자격증명으로 로그인 테스트 시작...
+2025-08-11 01:14:24,626 - INFO - 📧 잘못된 이메일 입력: invalid@example.com
+2025-08-11 01:14:24,627 - INFO - 🔒 잘못된 비밀번호 입력: wrongpassword
+2025-08-11 01:14:25,344 - INFO - 🔘 로그인 버튼 클릭 완료
+2025-08-11 01:14:45,893 - WARNING - ⚠️ 에러 메시지를 찾을 수 없습니다. API 서버 상태를 확인해주세요.
+2025-08-11 01:14:45,894 - INFO - ✅ 잘못된 자격증명 테스트 완료 (에러 메시지 없음)
+2025-08-11 01:14:46,155 - INFO - 🔍 폼 유효성 검사 테스트 시작...
+2025-08-11 01:14:49,709 - INFO - 🔘 빈 폼으로 로그인 버튼 클릭
+2025-08-11 01:14:51,728 - INFO - 📍 현재 URL: http://localhost/
+2025-08-11 01:14:51,827 - INFO - ✅ 폼 유효성 검사 테스트 통과
+2025-08-11 01:14:52,367 - INFO - 🔍 탭 네비게이션 테스트 시작...
+2025-08-11 01:14:57,110 - INFO - ✅ 로그인 탭 확인
+2025-08-11 01:14:57,214 - INFO - ✅ 회원가입 탭 확인
+2025-08-11 01:14:58,038 - INFO - 🔘 회원가입 탭 클릭
+2025-08-11 01:14:59,088 - INFO - ✅ 회원가입 폼 표시 확인
+2025-08-11 01:14:59,761 - INFO - 🔘 로그인 탭으로 전환
+2025-08-11 01:15:00,818 - INFO - ✅ 로그인 폼 표시 확인
+2025-08-11 01:15:00,819 - INFO - ✅ 탭 네비게이션 테스트 통과
+2025-08-11 01:15:01,092 - INFO - 🔍 반응형 디자인 테스트 시작...
+2025-08-11 01:15:01,451 - INFO - 📱 화면 크기 설정: 1920x1080
+2025-08-11 01:15:04,884 - INFO - ✅ 1920x1080에서 폼 표시 확인
+2025-08-11 01:15:05,585 - INFO - 📱 화면 크기 설정: 1366x768
+2025-08-11 01:15:09,670 - INFO - ✅ 1366x768에서 폼 표시 확인
+2025-08-11 01:15:10,269 - INFO - 📱 화면 크기 설정: 768x1024
+2025-08-11 01:15:13,575 - INFO - ✅ 768x1024에서 폼 표시 확인
+2025-08-11 01:15:14,116 - INFO - 📱 화면 크기 설정: 375x667
+2025-08-11 01:15:17,657 - INFO - ✅ 375x667에서 폼 표시 확인
+2025-08-11 01:15:17,755 - INFO - ✅ 반응형 디자인 테스트 통과
+2025-08-11 01:15:17,766 - INFO - 🔍 성능 및 로드 시간 테스트 시작...
+2025-08-11 01:15:20,021 - INFO - ⏱️ 페이지 로드 시간: 2.25초
+2025-08-11 01:15:20,022 - INFO - ✅ 페이지 로드 시간이 합리적입니다
+2025-08-11 01:15:20,090 - INFO - 💾 사용된 JavaScript 힙 메모리: 73.83 MB
+2025-08-11 01:15:20,103 - INFO - ✅ 성능 및 로드 시간 테스트 통과
+2025-08-11 01:15:20,302 - INFO - 🔍 더미 계정으로 로그인 테스트 시작...
+2025-08-11 01:15:23,748 - INFO - 📧 더미 이메일 입력: foo@foo
+2025-08-11 01:15:23,750 - INFO - 🔒 더미 비밀번호 입력: foo
+2025-08-11 01:15:24,468 - INFO - 🔘 로그인 버튼 클릭 완료
+2025-08-11 01:15:25,479 - INFO - 📝 더미 계정 로그인 결과 메시지: 로그인 성공!
+2025-08-11 01:15:25,481 - INFO - ✅ 더미 계정 로그인 테스트 완료
+2025-08-11 01:15:28,964 - INFO - 🔒 Chrome WebDriver 종료

@@ -1,8 +1,4 @@
 #!/bin/bash
-
-# 서비스 운영 스크립트
-# 사용법: ./scripts/ensure_service_operated.sh
-
 set -e
 
 echo "🚀 서비스 운영 시작..."
