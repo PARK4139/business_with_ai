@@ -2,7 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import os
-from models import Base
+from .models import Base
 
 # 데이터베이스 URL 환경변수에서 가져오기
 DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:password@db-server:5432/hospital_workers")
@@ -27,7 +27,7 @@ def create_tables():
 
 def init_db():
     """데이터베이스 초기화 및 기본 데이터 삽입"""
-    from models import Department, Room, LocationGuide
+    from .models import Department, Room, LocationGuide
     
     create_tables()
     

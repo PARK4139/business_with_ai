@@ -1,4 +1,4 @@
-﻿"""
+"""
 Frontend Login Routine Selenium Test
 프론트엔드 로그인 기능을 Selenium으로 테스트하는 프로그램입니다.
 Windows 환경 설정 기능을 포함하여 제공합니다.
@@ -25,10 +25,10 @@ import pytest
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler('logs/frontend_login_test.log', encoding='utf-8'),
-        logging.StreamHandler()
-    ]
+            handlers=[
+            logging.FileHandler('logs/frontend_login_test.log', encoding='utf-8'),
+            logging.StreamHandler()
+        ]
 )
 logger = logging.getLogger(__name__)
 
@@ -184,31 +184,44 @@ class ServiceChecker:
 class TestFrontendLoginRoutine:
     """프론트엔드 로그인 루틴 테스트"""
     
-    @pytest.fixture(scope="class")
+    @pytest.fixture(scope="session")
     def environment_setup(self):
         """환경 설정"""
         setup = EnvironmentSetup()
         setup.setup_environment()
+        # 로그인 루틴은 Windows 전용
+        if not setup.is_windows:
+            pytest.fail("로그인 루틴 테스트는 반드시 Windows 환경에서 실행해야 합니다")
         return setup
     
-    @pytest.fixture(scope="class")
+    @pytest.fixture(scope="session")
     def service_checker(self):
         """서비스 상태 확인기"""
         return ServiceChecker()
     
-    @pytest.fixture(scope="class")
+    @pytest.fixture(scope="session", autouse=False)
     def driver(self, environment_setup):
-        """Chrome WebDriver 설정"""
+        """Chrome WebDriver 설정 - 브라우저 자동 종료 완전 방지"""
+        """Chrome WebDriver 설정 - 브라우저 자동 종료 방지"""
         logger.info("Chrome WebDriver 설정 시작...")
         
         try:
             chrome_options = Options()
+            # 테스트 종료 후에도 Chrome 창 유지
+            try:
+                chrome_options.add_experimental_option("detach", True)
+            except Exception:
+                pass
             
             # 환경에 따라 headless 모드 설정
             if environment_setup.is_windows:
                 # Windows 환경에서는 headless 모드 비활성화 (브라우저 창 표시)
                 logger.info("Windows 환경: headless 모드 비활성화 (브라우저 창 표시)")
                 chrome_options.add_argument("--window-size=1920,1080")
+                # Windows에서 브라우저 자동 종료 방지
+                chrome_options.add_argument("--disable-background-timer-throttling")
+                chrome_options.add_argument("--disable-backgrounding-occluded-windows")
+                chrome_options.add_argument("--disable-renderer-backgrounding")
             elif environment_setup.is_linux:
                 # Linux 환경에서는 headless 모드 활성화
                 logger.info("Linux 환경: headless 모드 활성화")
@@ -220,24 +233,53 @@ class TestFrontendLoginRoutine:
             chrome_options.add_argument("--disable-dev-shm-usage")
             chrome_options.add_argument("--disable-gpu")
             chrome_options.add_argument("--disable-web-security")
-            chrome_options.add_argument("--user-data-dir=/tmp/chrome-test")
+            # Windows에서 DevToolsActivePort 오류 방지: user-data-dir을 OS별 유효 경로로 설정
+            try:
+                import tempfile, os as _os
+                if environment_setup.is_windows:
+                    _ud = _os.path.join(tempfile.gettempdir(), "chrome-test-profile")
+                else:
+                    _ud = "/tmp/chrome-test"
+                chrome_options.add_argument(f"--user-data-dir={_ud}")
+                chrome_options.add_argument("--remote-allow-origins=*")
+                chrome_options.add_argument("--disable-extensions")
+                chrome_options.add_argument("--no-first-run")
+                chrome_options.add_argument("--no-default-browser-check")
+            except Exception:
+                pass
+            # 브라우저 자동 종료 방지
+            chrome_options.add_argument("--disable-background-timer-throttling")
+            chrome_options.add_argument("--disable-backgrounding-occluded-windows")
+            chrome_options.add_argument("--disable-renderer-backgrounding")
             
             service = Service(ChromeDriverManager().install())
             driver = webdriver.Chrome(service=service, options=chrome_options)
             driver.implicitly_wait(10)
             
             logger.info("Chrome WebDriver 설정 완료")
+            logger.info("🔒 브라우저 자동 종료 방지 옵션 적용됨")
             yield driver
             
         except Exception as e:
             logger.error(f"Chrome WebDriver 설정 실패: {e}")
             raise
         finally:
+            # Chrome 브라우저를 계속 열린 상태로 유지
+            logger.info("Chrome WebDriver를 열린 상태로 유지합니다")
+            logger.info("💡 브라우저를 수동으로 종료하려면 브라우저 창을 닫으세요.")
+            logger.info("🚫 pytest fixture 정리로 인한 자동 종료 방지")
+            logger.info("🛡️ Chrome 옵션으로 자동 종료 방지")
+            # driver.quit() 호출하지 않음 - 브라우저 창 유지
+            # pytest가 fixture를 정리해도 브라우저는 유지
+            
+            # 추가 보호: 브라우저 프로세스 유지
             try:
-                # driver.quit()  # Chrome 브라우저를 열린 상태로 유지
-                logger.info("Chrome WebDriver를 열린 상태로 유지합니다")
+                import psutil
+                current_pid = driver.service.process.pid
+                logger.info(f"🔒 Chrome 프로세스 PID: {current_pid} 유지")
+                logger.info("🛡️ pytest 종료 후에도 브라우저 프로세스가 계속 실행됩니다")
             except Exception as e:
-                logger.error(f"WebDriver 처리 중 오류: {e}")
+                logger.warning(f"프로세스 정보 확인 실패: {e}")
     
     def test_environment_setup(self, environment_setup):
         """환경 설정 테스트"""
@@ -313,37 +355,34 @@ class TestFrontendLoginRoutine:
         frontend_available = service_checker.check_service_health('frontend')
         
         if not frontend_available:
-            logger.warning("프론트엔드 서비스가 실행되지 않음 - 모의 테스트 진행")
-            # 모의 테스트: 브라우저 창이 열려있는지만 확인
+            logger.warning("프론트엔드 서비스가 실행되지 않음 - 실제 서비스 시작 시도")
+            
+            # 실제 서비스 시작 시도
             try:
-                current_url = driver.current_url
-                logger.info(f"현재 URL: {current_url}")
+                logger.info("🚀 실제 frontend 서비스 연결 시도...")
+                driver.get("http://localhost:5173")
+                time.sleep(3)
                 
-                # 기본 페이지 로드 확인
-                driver.get("data:text/html,<html><head><title>Mock Login Page</title></head><body><h1>Login Test</h1><form><input name='email'><input name='password'><button type='submit'>Login</button></form></body></html>")
-                time.sleep(2)
-                
+                # 페이지 로드 확인
                 title = driver.title
-                logger.info(f"모의 페이지 제목: {title}")
+                logger.info(f"실제 페이지 제목: {title}")
                 
-                # 로그인 폼 존재 확인
-                login_form = self.wait_for_element(driver, By.TAG_NAME, "form")
-                if login_form:
-                    driver.save_screenshot("tests/results/01_mock_page_load_success.png")
-                    logger.info("📸 모의 페이지 로드 성공 스크린샷 저장")
-                    logger.info("모의 페이지 로드 테스트 통과")
+                if title and title != "Mock Login Page":
+                    logger.info("✅ 실제 frontend 서비스에 연결됨!")
+                    frontend_available = True
                 else:
-                    driver.save_screenshot("tests/results/02_mock_page_load_failed.png")
-                    pytest.fail("모의 로그인 폼을 찾을 수 없습니다")
+                    logger.warning("⚠️ 실제 서비스 연결 실패 - 모의 테스트 진행")
                     
             except Exception as e:
-                driver.save_screenshot("tests/results/02_mock_page_load_failed.png")
-                logger.error(f"모의 페이지 로드 테스트 실패: {e}")
-                pytest.fail(f"모의 페이지 로드 테스트 실패: {e}")
-        else:
+                logger.warning(f"실제 서비스 연결 시도 실패: {e}")
+                logger.error("프론트엔드 서비스가 필요합니다. 모의 페이지 사용은 금지됩니다.")
+                pytest.fail("프론트엔드 서비스(5173)가 실행 중이어야 합니다. 모의 페이지는 사용하지 않습니다.")
+        
+        if frontend_available:
             try:
                 # 실제 서비스 테스트
-                driver.get("http://localhost:5173/login")
+                # 프론트엔드는 현재 루트 경로(`/`)에 로그인 폼을 렌더링하므로 해당 경로를 사용
+                driver.get("http://localhost:5173/")
                 time.sleep(2)
                 
                 title = driver.title
@@ -492,6 +531,45 @@ class TestFrontendLoginRoutine:
             driver.save_screenshot("tests/results/07_selenium_capabilities_failed.png")
             logger.error(f"Selenium 기능 테스트 실패: {e}")
             pytest.fail(f"Selenium 기능 테스트 실패: {e}")
+
+    def test_login_with_valid_credentials(self, driver):
+        """유효한 자격 증명으로 실제 로그인 제출 테스트 (foo@foo / foo)"""
+        logger.info("유효한 자격증명 로그인 테스트 시작...")
+        # 1) 테스트 계정 보장
+        try:
+            resp = requests.post("http://localhost/api/auth/create-test-account", timeout=10)
+            logger.info(f"테스트 계정 보장 응답: {resp.status_code} {resp.text[:200]}")
+        except Exception as e:
+            logger.warning(f"테스트 계정 보장 실패(무시 가능): {e}")
+
+        # 2) 로그인 페이지 접속
+        driver.get("http://localhost:5173/")
+        WebDriverWait(driver, 10).until(lambda d: "Hospital" in d.title or d.find_elements(By.TAG_NAME, "form"))
+
+        # 3) 폼 입력 및 제출
+        email_input = self.wait_for_element(driver, By.NAME, "email")
+        password_input = self.wait_for_element(driver, By.NAME, "password")
+        assert email_input and password_input, "로그인 입력 요소를 찾을 수 없습니다"
+
+        email_input.clear(); email_input.send_keys("foo@foo")
+        password_input.clear(); password_input.send_keys("foo")
+
+        submit_btn = self.wait_for_element(driver, By.XPATH, "//button[@type='submit']")
+        assert submit_btn, "로그인 버튼을 찾을 수 없습니다"
+        self.safe_click(driver, submit_btn)
+
+        # 4) 성공 메시지 확인
+        try:
+            success_el = WebDriverWait(driver, 15).until(
+                EC.presence_of_element_located((By.XPATH, "//*[contains(text(),'로그인 성공')]"))
+            )
+            assert success_el is not None, "로그인 성공 메시지를 찾을 수 없습니다"
+            driver.save_screenshot("tests/results/09_login_submit_success.png")
+            logger.info("유효한 자격증명 로그인 테스트 통과")
+        except Exception as e:
+            driver.save_screenshot("tests/results/09_login_submit_failed.png")
+            logger.error(f"로그인 제출 테스트 실패: {e}")
+            pytest.fail(f"로그인 제출 테스트 실패: {e}")
     
     def test_comprehensive_validation(self, driver, environment_setup, service_checker):
         """종합 검증 테스트"""
@@ -526,6 +604,28 @@ class TestFrontendLoginRoutine:
             logger.info(f"🌐 서비스 상태: {env_info['services']}")
             logger.info("🔒 Chrome 브라우저를 열린 상태로 유지합니다.")
             logger.info("💡 브라우저를 수동으로 종료하려면 브라우저 창을 닫으세요.")
+            logger.info("🚫 pytest fixture scope를 'session'으로 설정하여 브라우저가 자동으로 닫히지 않습니다.")
+            
+            # 최종 보호: 브라우저 강제 유지
+            logger.info("🛡️ 브라우저 강제 유지 모드 활성화")
+            logger.info("💡 이제 pytest가 종료되어도 Chrome 브라우저가 계속 열려있습니다!")
+            logger.info("🚪 브라우저를 닫으려면 직접 창을 닫아주세요.")
+            
+            # 무한 대기로 브라우저 유지 (사용자가 직접 닫을 때까지)
+            try:
+                logger.info("⏳ 브라우저 유지를 위해 대기 중... (Ctrl+C로 중단 가능)")
+                while True:
+                    time.sleep(1)
+                    # 브라우저가 여전히 열려있는지 확인
+                    try:
+                        current_title = driver.title
+                        if not current_title:
+                            break
+                    except:
+                        break
+            except KeyboardInterrupt:
+                logger.info("👋 사용자에 의해 테스트가 중단되었습니다.")
+                logger.info("🔒 브라우저는 여전히 열려있습니다.")
             
         except Exception as e:
             logger.error(f"❌ 종합 검증 테스트 실패: {e}")

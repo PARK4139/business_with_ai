@@ -9,8 +9,8 @@ import secrets
 from datetime import datetime, timedelta
 
 # 데이터베이스 및 모델 import
-from database import get_db, init_db
-from models import User, Department, UserSession
+from .database import get_db, init_db
+from .models import User, Department, UserSession
 
 # Pydantic 모델들
 class UserLogin(BaseModel):
