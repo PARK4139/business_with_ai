@@ -1,0 +1,3 @@
+[submodule "services/hospital_workers"]
+	path = services/hospital_workers
+	url = https://github.com/PARK4139/hospital_workers.git
